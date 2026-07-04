@@ -83,6 +83,4 @@ The application generates:
 - Markdown research reports
 - PDF research reports
 
-## Author
 
-Your Name
