@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Research Agent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-950 text-white min-h-screen flex flex-col items-center">
+
+  <!-- Header -->
+  <div class="w-full max-w-3xl mt-10 text-center">
+    <h1 class="text-3xl font-bold">AI Research Agent</h1>
+    <p class="text-gray-400 mt-2">Ask anything. Get structured research instantly.</p>
+  </div>
+
+  <!-- Search Box -->
+  <div class="w-full max-w-2xl mt-8 flex gap-2">
+    <input id="query"
+      class="w-full p-3 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none"
+      placeholder="e.g. What is machine learning?"
+    />
+    <button onclick="search()" class="px-5 bg-blue-600 rounded-lg hover:bg-blue-700">
+      Search
+    </button>
+  </div>
+
+  <!-- Loader -->
+  <div id="loading" class="hidden mt-6 text-gray-400">
+    🔄 Researching across sources...
+  </div>
+
+  <!-- Output -->
+  <div id="output" class="w-full max-w-3xl mt-8 space-y-6"></div>
+
+<script>
+async function search() {
+  const query = document.getElementById("query").value;
+  const output = document.getElementById("output");
+  const loading = document.getElementById("loading");
+
+  output.innerHTML = "";
+  loading.classList.remove("hidden");
+
+  try {
+    const res = await fetch("/research", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query })
+    });
+
+    const data = await res.json();
+
+    loading.classList.add("hidden");
+
+    // ❗ SAFETY CHECK (prevents blank page crash)
+    if (!data || !data.structured_summary) {
+      output.innerHTML = `
+        <div class="bg-red-900 p-4 rounded-lg">
+          ❌ Error: Invalid response from server
+        </div>
+      `;
+      return;
+    }
+
+    const s = data.structured_summary;
+
+    output.innerHTML = `
+      <div class="bg-gray-900 p-5 rounded-xl border border-gray-800">
+        <h2 class="text-xl font-semibold mb-2">📌 Key Points</h2>
+        <ul class="list-disc ml-5 text-gray-300">
+          ${(s.key_points || []).map(k => `<li>${k}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="bg-gray-900 p-5 rounded-xl border border-gray-800">
+        <h2 class="text-xl font-semibold mb-2">🔍 Findings</h2>
+        <div class="text-gray-300 space-y-2">
+          ${(s.findings || []).map(f => `<p class="mb-2">${formatText(f)}</p>`).join("")}
+        </div>
+      </div>
+
+      <div class="bg-gray-900 p-5 rounded-xl border border-gray-800">
+        <h2 class="text-xl font-semibold mb-2">🧠 Insights</h2>
+        <ul class="text-gray-300">
+          ${(s.insights || []).map(i => `<li>• ${i}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="bg-gray-900 p-5 rounded-xl border border-gray-800">
+        <h2 class="text-xl font-semibold mb-2">📚 Sources</h2>
+        <ul class="text-blue-400 text-sm">
+          ${(s.references || []).map(r => `<li>${r}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="flex gap-3 mt-6 justify-end">
+        <a href="/export/markdown"
+           class="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700">
+          Download Markdown
+        </a>
+
+        <a href="/export/pdf"
+           class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700">
+          Download PDF
+        </a>
+      </div>
+    `;
+
+  } catch (err) {
+    loading.classList.add("hidden");
+    output.innerHTML = `
+      <div class="bg-red-900 p-4 rounded-lg">
+        ❌ Frontend Error: ${err.message}
+      </div>
+    `;
+  }
+}
+function formatText(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+}
+</script>
+
+</body>
+</html>
