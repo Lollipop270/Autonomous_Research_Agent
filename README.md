@@ -26,7 +26,6 @@ The Autonomous AI Research Agent is a FastAPI-based application that autonomousl
 - Wikipedia API
 - Arxiv API
 - RSS Feed Parser
-- Large Language Models (LLM)
 
 ## Project Structure
 
@@ -38,7 +37,6 @@ static/
 exports/
 logs/
 app.py
-config.py
 requirements.txt
 ```
 
@@ -62,15 +60,13 @@ cd autonomous-ai-agent
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file and add your API keys.
-
-5. Run the application
+4. Run the application
 
 ```bash
 uvicorn app:app --reload
 ```
 
-6. Open your browser at
+5. Open your browser at
 
 ```
 http://127.0.0.1:8000
