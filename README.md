@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Autonomous AI Research Agent is a FastAPI-based application that autonomously researches user queries by planning tasks, retrieving information from multiple sources, summarizing results using an LLM, and exporting reports in Markdown and PDF formats.
+The Autonomous AI Research Agent is a application that autonomously researches user queries by planning tasks, retrieving information from multiple sources, summarizing results, and exporting reports in Markdown and PDF formats.
 
 ## Features
 
@@ -11,16 +11,12 @@ The Autonomous AI Research Agent is a FastAPI-based application that autonomousl
 - Parallel search execution
 - Duplicate removal
 - Relevance ranking
-- LLM-based summarization
 - Markdown report export
 - PDF report generation
-- Memory support
-- FastAPI REST API
 
 ## Technologies Used
 
 - Python 3.x
-- FastAPI
 - Uvicorn
 - DuckDuckGo Search
 - Wikipedia API
