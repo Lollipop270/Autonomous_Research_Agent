@@ -2,7 +2,12 @@ fastapi
 uvicorn
 python-dotenv
 
-openai
+ddgs
+duckduckgo_search
+feedparser
+wikipedia
+
+reportlab
 
 langgraph
 langchain
@@ -27,8 +32,6 @@ beautifulsoup4
 lxml
 
 markdown
-
-reportlab
 
 sqlalchemy
 
