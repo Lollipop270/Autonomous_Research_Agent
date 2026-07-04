@@ -14,8 +14,7 @@ o References/Sources
 o Actionable insights (if applicable)  
 
 Bonus:  
- Allow the LLM to autonomously select the most appropriate external  
-data sources based on the users query.  
+ Allow the LLM to autonomously select the most appropriate external data sources based on the users query.  
  Parallel information gathering from multiple sources.  
  Export summary as PDF or Markdown.  
- Store previous searches in memory.  
+ Store previous searches in memory.(x)  
